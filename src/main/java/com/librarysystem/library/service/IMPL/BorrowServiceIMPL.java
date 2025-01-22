@@ -6,6 +6,7 @@ import com.librarysystem.library.dto.BorrowUpdateDTO;
 import com.librarysystem.library.entity.Borrow;
 import com.librarysystem.library.repo.BookRepo;
 import com.librarysystem.library.repo.BorrowRepo;
+import com.librarysystem.library.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,4 +98,4 @@ public class BorrowServiceIMPL implements BorrowService {
         return null;
 
 
-    }
+    }}
