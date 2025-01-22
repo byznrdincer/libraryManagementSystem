@@ -5,17 +5,10 @@ public class BorrowSaveDTO {
     private String title;
     private int author_id;
     private int publisher_id;
-
-    // Parametreli Constructor
-    public BorrowSaveDTO(String title, int author_id, int publisher_id) {
-        this.title = title;
-        this.author_id = author_id;
-        this.publisher_id = publisher_id;
-    }
-
-    // Parametresiz Constructor
-    public BorrowSaveDTO() {
-    }
+    private int user_id;
+    private String borrowDate;
+    private String returnDate;
+    private int book_id;  // Bu satırı ekledik
 
     // Getter ve Setter Metotları
     public String getTitle() {
@@ -42,14 +35,35 @@ public class BorrowSaveDTO {
         this.publisher_id = publisher_id;
     }
 
-    // toString Metodu (isteğe bağlı)
-    @Override
-    public String toString() {
-        return "BorrowSaveDTO{" +
-                "title='" + title + '\'' +
-                ", author_id=" + author_id +
-                ", publisher_id=" + publisher_id +
-                '}';
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getBorrowDate() {
+        return borrowDate;
+    }
+
+    public void setBorrowDate(String borrowDate) {
+        this.borrowDate = borrowDate;
+    }
+
+    public String getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public int getBook_id() {  // Bu metodu ekledik
+        return book_id;
+    }
+
+    public void setBook_id(int book_id) {  // Bu setter metodunu ekledik
+        this.book_id = book_id;
     }
 }
-

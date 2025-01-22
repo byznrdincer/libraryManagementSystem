@@ -23,7 +23,7 @@ public class BorrowDTO {
     }
 
     // Parametresiz Constructor
-    public BorrowDTO() {
+    public BorrowDTO(int id, Book book, com.librarysystem.library.entity.User user, LocalDate borrowDate, LocalDate returnDate) {
     }
 
     // Getter ve Setter Metotları

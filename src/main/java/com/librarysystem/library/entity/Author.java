@@ -1,25 +1,24 @@
 package com.librarysystem.library.entity;
 
 import jakarta.persistence.*;
-
-import java.awt.print.Book;
 import java.util.Set;
 
 @Entity
-@Table(name="author")
+@Table(name = "author")
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "author_id",length = 11)
+    @Column(name = "author_id", length = 11)
     private int authorid;
 
-    @Column(name = "name",length = 45)
+    @Column(name = "name", length = 45)
     private String name;
 
     @OneToMany(mappedBy = "author")
     private Set<Book> books;
 
+    // Constructors
     public Author(int authorid, String name) {
         this.authorid = authorid;
         this.name = name;
@@ -32,6 +31,7 @@ public class Author {
     public Author() {
     }
 
+    // Getters and Setters
     public int getAuthorid() {
         return authorid;
     }
@@ -48,6 +48,15 @@ public class Author {
         this.name = name;
     }
 
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
+    // toString Method
     @Override
     public String toString() {
         return "Author{" +

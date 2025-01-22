@@ -1,7 +1,6 @@
 package com.librarysystem.library.entity;
 
 import jakarta.persistence.*;
-import org.apache.catalina.User;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -27,11 +26,6 @@ public class Borrow {
 
     @Column(name = "returnDate")
     private LocalDate returnDate;
-
-
-
-    @OneToMany(mappedBy = "borrow")
-    private Set<Fine> fines;
 
 
 

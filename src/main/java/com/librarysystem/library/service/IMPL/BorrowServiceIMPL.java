@@ -1,5 +1,7 @@
 package com.librarysystem.library.service.IMPL;
 
+import com.librarysystem.library.entity.Book;
+import com.librarysystem.library.entity.User;
 import com.librarysystem.library.dto.BorrowDTO;
 import com.librarysystem.library.dto.BorrowSaveDTO;
 import com.librarysystem.library.dto.BorrowUpdateDTO;
@@ -11,12 +13,13 @@ import com.librarysystem.library.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BorrowServiceIMPL implements BorrowService {
-
 
     @Autowired
     private BookRepo bookRepo;
@@ -27,21 +30,29 @@ public class BorrowServiceIMPL implements BorrowService {
     @Autowired
     private BorrowRepo borrowRepo;
 
-
     @Override
     public String addBorrow(BorrowSaveDTO borrowSaveDTO) {
 
-        Borrow borrow = new Borrow(
+        // Tarih formatını LocalDate'e dönüştürme
+        LocalDate borrowDate = LocalDate.parse(borrowSaveDTO.getBorrowDate());  // String'den LocalDate'e dönüştürme
+        LocalDate returnDate = LocalDate.parse(borrowSaveDTO.getReturnDate());
 
-                bookRepo.getById(borrowSaveDTO.getBook_id()),
-                userRepo.getById(borrowSaveDTO.getUser_id()),
-                borrowSaveDTO.getBorrowDate(),
-                borrowSaveDTO.getReturnDate()
+        // borrowSaveDTO'dan gelen book_id ve user_id ile ilgili book ve user objelerini alıyoruz
+        Optional<Book> book = bookRepo.findById(borrowSaveDTO.getBook_id());
+        Optional<User> user = userRepo.findById(borrowSaveDTO.getUser_id());
 
-        );
-        borrowRepo.save(borrow);
-
-        return null;
+        if (book.isPresent() && user.isPresent()) {
+            Borrow borrow = new Borrow(
+                    book.get(),
+                    user.get(),
+                    borrowDate,
+                    returnDate
+            );
+            borrowRepo.save(borrow);
+            return "Borrow added successfully.";
+        } else {
+            return "Book or User not found!";
+        }
     }
 
     @Override
@@ -50,53 +61,43 @@ public class BorrowServiceIMPL implements BorrowService {
         List<Borrow> getBorrow = borrowRepo.findAll();
         List<BorrowDTO> borrowDTOList = new ArrayList<>();
 
-        for(Borrow borrow : getBorrow)
-        {
+        for (Borrow borrow : getBorrow) {
             BorrowDTO borrowDTO = new BorrowDTO(
                     borrow.getId(),
                     borrow.getBook(),
                     borrow.getUser(),
                     borrow.getBorrowDate(),
                     borrow.getReturnDate()
-
             );
             borrowDTOList.add(borrowDTO);
-
         }
         return borrowDTOList;
-
-
     }
 
     @Override
     public String updateBorrow(BorrowUpdateDTO borrowUpdateDTO) {
 
         try {
+            // borrowid kullanılıyor
+            Optional<Borrow> optionalBorrow = borrowRepo.findById(borrowUpdateDTO.getBorrowid());
 
+            if (optionalBorrow.isPresent()) {
+                Borrow borrow = optionalBorrow.get();
 
-            if(borrowRepo.existsById(borrowUpdateDTO.getId())) {
-                Borrow borrow = borrowRepo.getById(borrowUpdateDTO.getId());
-                borrow.setBook(bookRepo.getById(borrowUpdateDTO.getBook_id()));
-                borrow.setUser(userRepo.getById(borrowUpdateDTO.getUser_id()));
-                borrow.setBorrowDate(borrowUpdateDTO.getBorrowDate());
-                borrow.setReturnDate(borrowUpdateDTO.getReturnDate());
+                // Tarih formatını LocalDate'e dönüştürme
+                borrow.setBook(bookRepo.findById(borrowUpdateDTO.getBook_id()).orElse(null));
+                borrow.setUser(userRepo.findById(borrowUpdateDTO.getUser_id()).orElse(null));
+                borrow.setBorrowDate(LocalDate.parse(borrowUpdateDTO.getBorrowDate()));  // String'den LocalDate'e dönüştürme
+                borrow.setReturnDate(LocalDate.parse(borrowUpdateDTO.getReturnDate()));
 
                 borrowRepo.save(borrow);
 
                 return "Borrow updated successfully.";
-
+            } else {
+                return "Borrow ID Not Found";
             }
-            else
-            {
-                System.out.println("Borrow ID Not Found");
-            }
-
+        } catch (Exception ex) {
+            return "Error: " + ex.getMessage();
         }
-        catch (Exception ex)
-        {
-            System.out.println(ex);
-        }
-        return null;
-
-
-    }}
+    }
+}

@@ -3,7 +3,7 @@ package com.librarysystem.library.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
 
     @Id
@@ -18,12 +18,6 @@ public class User {
     private String email;
 
     // Parametreli Constructor
-    public User(int userid, String name, String email) {
-        this.userid = userid;
-        this.name = name;
-        this.email = email;
-    }
-
     public User(String name, String email) {
         this.name = name;
         this.email = email;
@@ -33,7 +27,7 @@ public class User {
     public User() {
     }
 
-    // Getter ve Setter metotları
+    // Getter ve Setter Metotları
     public int getUserid() {
         return userid;
     }
@@ -58,7 +52,7 @@ public class User {
         this.email = email;
     }
 
-    // toString metodu (isteğe bağlı)
+    // toString Metodu (isteğe bağlı)
     @Override
     public String toString() {
         return "User{" +

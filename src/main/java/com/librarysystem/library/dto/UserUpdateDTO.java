@@ -2,13 +2,13 @@ package com.librarysystem.library.dto;
 
 public class UserUpdateDTO {
 
-    private int userid;
-    private String name;
-    private String email;
+    private int id;        // Kullanıcı ID'si
+    private String name;   // Kullanıcı adı
+    private String email;  // Kullanıcı e-posta adresi
 
     // Parametreli Constructor
-    public UserUpdateDTO(int userid, String name, String email) {
-        this.userid = userid;
+    public UserUpdateDTO(int id, String name, String email) {
+        this.id = id;
         this.name = name;
         this.email = email;
     }
@@ -18,12 +18,12 @@ public class UserUpdateDTO {
     }
 
     // Getter ve Setter metotları
-    public int getUserid() {
-        return userid;
+    public int getId() {
+        return id;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -46,10 +46,9 @@ public class UserUpdateDTO {
     @Override
     public String toString() {
         return "UserUpdateDTO{" +
-                "userid=" + userid +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
 }
-
