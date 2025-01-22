@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.apache.catalina.User;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name="borrow")

@@ -22,7 +22,7 @@ public class PublisherServiceIMPL implements PublisherService {
     public String addPublisher(PublisherSaveDTO publisherSaveDTO) {
 
         Publisher publisher = new Publisher(
-                PublisherSaveDTO.getName()
+                publisherSaveDTO.getName()
 
         );
         publisherRepo.save(publisher);
