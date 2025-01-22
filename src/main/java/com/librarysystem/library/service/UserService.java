@@ -15,5 +15,7 @@ public interface UserService {
     String updateUser(UserUpdateDTO userUpdateDTO);
 
     String deleteUser(int userId);
-}
 
+    // Kullanıcı doğrulama metodu
+    boolean validateUser(String email, String name);
+}

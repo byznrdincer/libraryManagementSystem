@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceIMPL implements UserService {
@@ -71,5 +72,14 @@ public class UserServiceIMPL implements UserService {
             System.out.println("ID not found");  // Kullanıcı bulunamadı
         }
         return null;
+    }
+
+    @Override
+    public boolean validateUser(String email, String name) {
+        // Email ve name bilgileriyle kullanıcıyı kontrol et
+        Optional<User> userOpt = userRepo.findByEmailAndName(email, name);
+
+        // Eğer kullanıcı varsa doğrulama başarılı, yoksa başarısız
+        return userOpt.isPresent();
     }
 }

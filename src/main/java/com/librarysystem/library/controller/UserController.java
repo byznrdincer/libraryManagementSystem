@@ -1,10 +1,13 @@
 package com.librarysystem.library.controller;
 
 import com.librarysystem.library.dto.UserDTO;
+import com.librarysystem.library.dto.UserLoginDTO;
 import com.librarysystem.library.dto.UserSaveDTO;
 import com.librarysystem.library.dto.UserUpdateDTO;
 import com.librarysystem.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +24,18 @@ public class UserController {
     public String saveUser(@RequestBody UserSaveDTO userSaveDTO) {
         String response = userService.addUser(userSaveDTO);
         return "User added successfully";
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<String> loginUser(@RequestBody UserLoginDTO userLoginDTO) {
+        // Kullanıcıyı doğrula
+        boolean isValidUser = userService.validateUser(userLoginDTO.getEmail(), userLoginDTO.getName());
+
+        if (isValidUser) {
+            return ResponseEntity.ok("Giriş başarılı");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Giriş bilgileri hatalı");
+        }
     }
 
     @GetMapping(path = "/getAllUsers")
