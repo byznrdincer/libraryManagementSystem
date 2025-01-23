@@ -119,24 +119,42 @@ footer a:hover {
 
 <script>
     window.onload = function() {
-      fetch('http://localhost:8079/api/v1/book/getAllBook')
-          .then(response => response.json())
-          .then(data => {
-              console.log(data);  // Veriyi kontrol et
-              const booksList = document.getElementById('booksList');
-              data.forEach(book => {
-                  console.log(book);  // Her bir kitap nesnesini kontrol et
-                  const li = document.createElement('li');
-                  li.textContent = `${book.title} - ${book.author}`; // Kitap başlığı ve yazar adı
-                  booksList.appendChild(li);
-              });
-          })
-          .catch(error => {
-              console.error('Error fetching books:', error);
-              alert('Kitapları alırken bir hata oluştu.');
-          });
-  }
+        fetch('http://localhost:8079/api/v1/book/getAllBook')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Veri alınırken hata oluştu.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Gelen veri:', data);
 
+                // Eğer API bir nesne döndürüyorsa, diziyi kontrol et
+                if (data.books && Array.isArray(data.books)) {
+                    data.books.forEach(book => {
+                        addBookToList(book);
+                    });
+                } else if (Array.isArray(data)) {
+                    data.forEach(book => {
+                        addBookToList(book);
+                    });
+                } else {
+                    console.error('Beklenmeyen veri formatı:', data);
+                    alert('Beklenen formatta veri alınamadı.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching books:', error);
+                alert('Kitapları alırken bir hata oluştu.');
+            });
+    }
+
+    function addBookToList(book) {
+        const booksList = document.getElementById('booksList');
+        const li = document.createElement('li');
+        li.textContent = `${book.title} - ${book.author}`;
+        booksList.appendChild(li);
+    }
 </script>
 
 </body>
