@@ -1,8 +1,12 @@
 package com.librarysystem.library.entity;
 
 import jakarta.persistence.*;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.util.Set;
+@Setter
+@Getter
 @Entity
 @Table(name = "author")
 public class Author {
@@ -31,37 +35,4 @@ public class Author {
     public Author() {
     }
 
-    // Getters and Setters
-    public int getAuthorid() {
-        return authorid;
-    }
-
-    public void setAuthorid(int authorid) {
-        this.authorid = authorid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
-
-    // toString Method
-    @Override
-    public String toString() {
-        return "Author{" +
-                "authorid=" + authorid +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }
